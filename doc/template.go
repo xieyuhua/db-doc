@@ -38,6 +38,7 @@ const docsifyHTML = `<!DOCTYPE html>
 <body>
 <div data-app id="main">加载中</div>
 <script>
+
 	window.$docsify = {
 		el: '#main',
 		name: '',

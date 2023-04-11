@@ -4,14 +4,13 @@ import (
 	"db-doc/model"
 	"db-doc/util"
 	"fmt"
-	"log"
-	"net/http"
 	"path"
 	"strings"
 )
 
 // createOnlineDoc create _siderbar.md
 func createOnlineDoc(docPath string, dbInfo model.DbInfo, tables []model.Table) {
+    
 	var sidebar []string
 	var readme []string
 	// sidebar = append(sidebar, "* [数据库文档](README.md)")
@@ -47,13 +46,5 @@ func createOnlineDoc(docPath string, dbInfo model.DbInfo, tables []model.Table) 
 	// create .nojekyll
 	util.WriteToFile(path.Join(docPath, ".nojekyll"), "")
 	fmt.Println("doc generate successfully!")
-	// run server
-	runServer(docPath)
 }
 
-// runServer run http static server
-func runServer(dir string) {
-	http.Handle("/", http.FileServer(http.Dir(dir)))
-	fmt.Println("doc server is running : http://127.0.0.1:3000")
-	log.Fatal(http.ListenAndServe(":3000", nil))
-}

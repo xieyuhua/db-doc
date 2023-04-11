@@ -4,12 +4,16 @@ import (
 	"db-doc/database"
 	"db-doc/model"
 	"fmt"
+	"path"
+	"log"
+	"net/http"
 	"os"
 )
 
 const version = "v1.1.1"
 
 var dbConfig model.DbConfig
+var docPath = ""
 
 func main() {
 	fmt.Printf("Welcome to the database document generation tool, the current version is %s \n", version)
@@ -41,8 +45,26 @@ func main() {
 	fmt.Scanln(&dbConfig.DocType)
 	// generate
 	database.Generate(&dbConfig)
+	
+	if dbConfig.DocType==1 {
+		dir, _ := os.Getwd()
+        docPath = path.Join(dir, "dist", dbConfig.Database, "www")
+		
+        fileHandler := http.FileServer(http.Dir(docPath))
+    	http.Handle("/", GetUpdate(fileHandler))
+    	fmt.Println("doc server is running : http://127.0.0.1:3000")
+    	log.Fatal(http.ListenAndServe(":3000", nil))
+
+	}
 }
 
+func GetUpdate(next http.Handler) http.Handler {
+      return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+         database.Generate(&dbConfig)
+         next.ServeHTTP(w, r)
+      })
+}
+    
 // GetDefaultConfig get default config
 func GetDefaultConfig() {
 	dbConfig.Host = "127.0.0.1"
