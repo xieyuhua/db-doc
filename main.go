@@ -60,6 +60,12 @@ func main() {
 
 func GetUpdate(next http.Handler) http.Handler {
       return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+          
+        err := os.RemoveAll(docPath)
+        if err != nil {
+            log.Fatal(err)
+        }
+          
          database.Generate(&dbConfig)
          next.ServeHTTP(w, r)
       })
