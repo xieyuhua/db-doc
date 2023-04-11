@@ -1,10 +1,10 @@
 ## 💡 简介
 
-db-doc 是一款生成在线数据库文档的小工具
+db-doc 是一款生成在线实时数据库文档的小工具
 
 ## 📸 截图
 
-### 在线文档
+### 实时在线文档
 
 ![image-20210707130615707](https://gitee.com/viodo/note-pic-repo/raw/master//note/image-20210707130615707.png)
 
